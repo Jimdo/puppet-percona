@@ -9,7 +9,7 @@ class percona::service {
 
   if $percona::server {
     service {
-      $percona::params::service:
+      $percona::service_name:
         ensure => running,
         enable => true,
     }

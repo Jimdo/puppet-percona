@@ -2,24 +2,18 @@
 #
 #
 class percona::preinstall {
-  if $percona::client {
-  }
-
-  if $percona::server {
-  }
-
   case $::operatingsystem {
-    'debian', 'Debian', 'ubuntu', 'Ubuntu': {
+    'debian', 'ubuntu': {
       apt::key { 'CD2EFD2A':
         ensure => present,
-        notify => Exec['apt-get update'],
+        notify => Exec['apt-get_update'],
       }
 
       apt::sources_list { 'percona':
         ensure  => present,
         source  => false,
         content => template ('percona/sources.list.erb'),
-        notify  => Exec['apt-get update'];
+        notify  => Exec['apt-get_update'];
       }
 
       exec { 'apt-get update':
@@ -28,7 +22,7 @@ class percona::preinstall {
       }
     }
 
-    'RedHat', 'redhat', 'CentOS', 'centos': {
+    'RedHat', 'CentOS', 'Scientific', 'OEL', 'Amazon': {
       package { 'percona-release':
         ensure   => present,
         provider => 'rpm',
@@ -37,7 +31,7 @@ class percona::preinstall {
     }
 
     default: {
-      fail 'Operating system not supported yet.'
+      fail "Operating system ${::operatingsystem} is not supported."
     }
   }
 }

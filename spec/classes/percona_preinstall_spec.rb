@@ -14,7 +14,7 @@ describe 'percona::preinstall' do
     }
 
     it { should contain_apt__key('CD2EFD2A')\
-      .with_notify(["Exec[apt-get update]"])
+      .with_notify("Exec[apt-get_update]")
     }
 
     it { should contain_apt__sources_list('percona')\

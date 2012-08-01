@@ -6,7 +6,6 @@
 #
 # Actions:
 #   - Install PerconaDB
-#   - Install PerconaXtraDB
 #
 # Requires:
 #   - camp2camp puppet-apt module:
@@ -16,23 +15,35 @@
 #
 #  node server {
 #    class { 'percona':
-#      server          => 'true',
-#      percona_version => '5.5';
+#      server => 'true',
 #    }
-#
-#  node client {
-#    include percona': }
 #  }
 #
-# Valid options:
-#
-# Known issues:
+#  node client {
+#    class {
+#      'percona':;
+#    }
+#  }
 #
 class percona (
-  $client          = true,
-  $server          = undef,
-  $percona_version = '5.5' # Options: 5.1, 5.5
-) {
+  $client           = $::percona::params::client,
+  $server           = $::percona::params::server,
+  $config_dir_mode  = $::percona::params::config_dir_mode,
+  $config_file_mode = $::percona::params::config_file_mode,
+  $config_group     = $::percona::params::config_group,
+  $config_user      = $::percona::params::config_user,
+  $daemon_group     = $::percona::params::daemon_group,
+  $daemon_user      = $::percona::params::daemon_user,
+  $datadir          = $::percona::params::datadir,
+  $errorlog         = $::percona::params::errorlog,
+  $logdir           = $::percona::params::logdir,
+  $package_client   = $::percona::params::package_client,
+  $package_server   = $::percona::params::package_server,
+  $pidfile          = $::percona::params::pidfile,
+  $service_name     = $::percona::params::service,
+  $socket           = $::percona::params::socket,
+  $targetdir        = $::percona::params::targetdir,
+) inherits percona::params {
   # motd::register { 'percona': }
 
   include percona::params

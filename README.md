@@ -6,19 +6,39 @@
 
 ## Basic usage
 
-### Client only
-    class { 'apt': }
-    class { 'percona': }
+### Client tools only
 
-    Class['apt'] ->
-    Class['percona']
+Debian node:
+
+    class {
+      'apt':;
+      'percona':;
+    }
+
+    Class['apt'] -> Class['percona']
+
+RedHat node:
+
+    class {
+      'percona':;
+    }
 
 ### Client and server
-    class { 'apt': }
-    class { 'percona': server => true; }
 
-    Class['apt'] ->
-    Class['percona']
+Debian node:
+
+    class {
+      'apt':;
+      'percona': server => true;
+    }
+
+    Class['apt'] -> Class['percona']
+
+RedHat node:
+
+    class {
+      'percona': server => true;
+    }
 
 ### Configuration
     percona::conf {
@@ -53,14 +73,10 @@
 ### Unit testing
 
 Unit testing is done using [rspec-puppet]
+
 To test the module run the following:
 
-    # Installation
-    gem install rspec-puppet --no-ri --no-rdoc
-
-    # Run tests
-    cd /etc/puppet/modules/percona
-    rake
+    # bundle exec rake
 
 [apt module]: https://github.com/camptocamp/puppet-apt
 [rspec-puppet]: https://github.com/rodjek/rspec-puppet
